@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sleepnano.kkorder.mapper.OrderMapper">
+    <insert id="insertPaidOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO sys_order(
+
+                              id,order_no,is_paid,payment_method,payment_code,status,
+                              gen_time
+
+                              ) VALUES (#{id},#{orderNo},#{isPaid},#{paymentMethod},#{paymentCode},#{status},#{genTime})
+    </insert>
+
+    <insert id="insertOrderUser">
+        INSERT INTO user_order(user_no,order_no) VALUES (#{userNo},#{orderNo})
+    </insert>
+    <insert id="insertOrderProduct" parameterType="java.util.List">
+        INSERT INTO order_product(order_no, product_no, order_quantity)
+        VALUES
+        <foreach collection="list" item="product" separator=",">
+            (#{product.orderNo},#{product.productNo},#{product.orderQuantity})
+        </foreach>
+    </insert>
+
+    <select id="getDatOrderList" resultMap="resultMap_order_user"
+            parameterType="java.lang.String">
+        SELECT order_no,order_quantity,
+               product.id, product.product_name,
+               product.product_category,
+               product.product_price, product.product_desc,
+               product.product_no, product.img,
+               product.product_hits, product.product_status,
+               product.create_time, product.modify_time
+        FROM order_product
+            left join product_list product on order_product.product_no = product.product_no
+        where order_no = #{orderNo}
+    </select>
+
+    <resultMap id="resultMap_order_user" type="top.sleepnano.kkorder.entity.SelectOrder">
+        <result column="order_no" property="orderNo"/>
+        <result column="order_quantity" property="orderQuantity"/>
+        <association property="product" javaType="top.sleepnano.kkcommon.entity.Product">
+            <id column="id" property="id"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_category" property="productCategory"/>
+            <result column="product_price" property="productPrice"/>
+            <result column="product_desc" property="productDesc"/>
+            <result column="product_no" property="productNo"/>
+            <result column="img" property="img"/>
+            <result column="product_hits" property="productHits"/>
+            <result column="product_status" property="productStatus"/>
+            <result column="create_time" property="createTime"/>
+            <result column="modify_time" property="modifyTime"/>
+        </association>
+    </resultMap>
+
+    <select id="getUserOrderList" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT order_no
+        FROM user_order where user_no = #{userNo}
+    </select>
+    <select id="selectSysOrderByOrderNo" resultType="top.sleepnano.kkorder.entity.SysOrder"
+            parameterType="java.lang.String">
+        SELECT id, order_no, is_paid, payment_method, payment_code,status, create_time, modify_time, sent_time, completion_time, gen_time
+        FROM sys_order where order_no = #{orderNo}
+    </select>
+
+</mapper>

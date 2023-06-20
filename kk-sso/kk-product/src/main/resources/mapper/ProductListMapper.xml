@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.sleepnano.kkproduct.mapper.ProductMapper">
+    <select id="selectProductByNos" parameterType="java.util.List" resultType="top.sleepnano.kkproduct.entity.Product">
+        Select id,
+               product_name,
+               product_category,
+               product_price,
+               product_desc,
+               product_no,
+               img,
+               product_hits,
+               product_status,
+               create_time,
+               modify_time from product_list
+        where product_no IN
+              <foreach collection="list" item="product" separator="," open="(" close=")" index="">
+                  #{product.productNo}
+              </foreach>
+    </select>
+    <select id="selectProductByNosString" resultType="top.sleepnano.kkproduct.entity.Product"
+            parameterType="java.util.List">
+        Select id,
+        product_name,
+        product_category,
+        product_price,
+        product_desc,
+        product_no,
+        img,
+        product_hits,
+        product_status,
+        create_time,
+        modify_time from product_list
+        where product_no IN
+        <foreach collection="list" item="product" separator="," open="(" close=")" index="">
+            #{product}
+        </foreach>
+    </select>
+</mapper>

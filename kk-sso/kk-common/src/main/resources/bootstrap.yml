@@ -1,0 +1,21 @@
+server:
+  port: 6002
+spring:
+  application:
+    name: sso-common
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+
+ribbon: #配置启动加载的客户端
+  eager-load:
+    clients: kk-product, kk-order
+    enabled: true
