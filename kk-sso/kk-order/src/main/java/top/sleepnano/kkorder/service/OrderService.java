@@ -18,7 +18,7 @@ public interface OrderService extends BaseService{
 
     Result cancelOrder(String orderNo, String userNo);
 
-    Result paymentSucceeded(String key,String method,String status);
+    Result paymentSucceeded(String key,String method,String methodCode,String status);
 
     void orderCacheExpired(String toString);
 

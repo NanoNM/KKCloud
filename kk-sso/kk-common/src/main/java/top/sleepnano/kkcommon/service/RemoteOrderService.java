@@ -44,6 +44,11 @@ public interface RemoteOrderService {
                              @RequestParam("userNo")String userNo);
 
 
+    @RequestMapping("/paySucceeded")
+    Result paymentSucceeded(@RequestParam("key")String key,
+                            @RequestParam("payMethodCode")String payMethodCode,
+                            @RequestParam("payMethod")String payMethod,
+                            @RequestParam("trade_status1")String trade_status);
 }
 
 //@FeignClient("user-service")

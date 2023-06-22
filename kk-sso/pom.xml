@@ -18,6 +18,7 @@
         <module>kk-product</module>
         <module>kk-order</module>
         <module>kk-seckill</module>
+        <module>kk-payment</module>
     </modules>
 
     <dependencyManagement>

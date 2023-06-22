@@ -109,7 +109,7 @@ public class SeckillServiceImpl implements SeckillService {
         }
         if (System.currentTimeMillis()>seckillRedisOrder.getEndTime().getTime()){
             log.error("秒杀已结束,但是redis未删除失效的秒杀{}",seckillRedisOrder.getSeckillOrderNo());
-            throw new RuntimeException("秒杀已结束,但这是一个错误请联系管理员"+seckillRedisOrder.getSeckillOrderNo());
+            throw new RuntimeException("秒杀已结束,但这是一个错误请联系管理员" + seckillRedisOrder.getSeckillOrderNo());
         }
         if (seckillRedisOrder.getNum()==0){
             redisTemplate.delete(seckillKey);

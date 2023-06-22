@@ -92,4 +92,12 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/paySucceeded")
+    Result paymentSucceeded(@RequestParam("key")String key,
+                            @RequestParam("payMethodCode")String payMethodCode,
+                            @RequestParam("payMethod")String payMethod,
+                            @RequestParam("trade_status1")String trade_status){
+
+        return orderService.paymentSucceeded(key, payMethod,payMethodCode, trade_status);
+    }
 }

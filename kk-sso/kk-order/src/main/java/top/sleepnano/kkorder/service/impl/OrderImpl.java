@@ -120,6 +120,7 @@ public class OrderImpl implements OrderService {
         });
 
         // 订单No使用秒杀No
+        // TODO 这里没有和数据库比对 有问题
         UUID uuid= UUID.fromString(secNo);
         OrderRedis orderRedis = new OrderRedis(userNo,uuid,orderItems,prise,0,new Date(),0);
         String key = "order:"+userNo+", orderID:"+uuid;
@@ -144,8 +145,22 @@ public class OrderImpl implements OrderService {
     }
 
     @Override
-    public Result paymentSucceeded(String key, String method, String status) {
-        return null;
+    public Result paymentSucceeded(String key, String method, String methodCode,String status) {
+        OrderRedis orderRedis = (OrderRedis) redisTemplate.opsForValue().get(key);
+        if (Objects.isNull(orderRedis)){
+            log.error("严重异常,订单缓存失效,但是付款成功 {}",key);
+            throw new RuntimeException("严重异常,订单缓存失效,但是付款成功,来自:" + key);
+        }
+        SysOrder sysOrder = new SysOrder(null,
+                orderRedis.getOrderId().toString(),
+                1,
+                method, methodCode,
+                status, null, null,null,null,
+                orderRedis.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        orderReceiptTransaction(sysOrder,key,orderRedis,"paymentSucceeded");
+        log.info("订单受理完成 {}",key);
+        return VoBuilder.ok("支付受理完成",null);
     }
 
     @Override
@@ -160,7 +175,7 @@ public class OrderImpl implements OrderService {
                 orderRedis.getOrderId().toString(),
                 0,
                 "超时",
-                "TRADE_CLOSED","timeout", null, null,null,null,
+                "timeout","TRADE_CLOSED", null, null,null,null,
                 orderRedis.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         orderReceiptTransaction(sysOrder,key,orderRedis,"orderCacheExpired");
     }

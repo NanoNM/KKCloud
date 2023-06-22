@@ -1,0 +1,10 @@
+# 项目排除路径
+/kk-sso/kk-common/target/
+/kk-sso/kk-order/target/
+/kk-sso/kk-product/target/
+/kk-sso/kk-seckill/target/
+/kk-sso/sso-auth/target/
+/kk-sso/sso-gateway/target/
+/kk-sso/sso-resource/target/
+/kk-sso/sso-ui/target/
+/kk-sso/sso-user/target/

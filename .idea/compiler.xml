@@ -10,6 +10,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="sso-auth" />
         <module name="sso-gateway" />
+        <module name="kk-payment" />
         <module name="kk-order" />
         <module name="sso-ui" />
         <module name="kk-common" />
