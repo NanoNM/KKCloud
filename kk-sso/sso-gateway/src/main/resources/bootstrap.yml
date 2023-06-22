@@ -12,7 +12,7 @@ spring:
         file-extension: yml
     sentinel:
       transport:
-        dashboard: localhost:8180
+        dashboard: localhost:8080
       eager: true
     gateway:
       routes:

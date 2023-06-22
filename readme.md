@@ -7,6 +7,8 @@
 > 
 > nacos
 > 
+> Sentinel
+> 
 > feign
 > 
 > redis
@@ -17,8 +19,6 @@
 >
 
 ### 未来计划
-
-> Sentinel
 > 
 > MQ（RabbitMQ）
 > 
